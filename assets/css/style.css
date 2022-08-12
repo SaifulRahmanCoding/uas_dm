@@ -1,0 +1,114 @@
+* {
+    margin: 0;
+    padding: 0;
+    /* font-family: 'Ubuntu', sans-serif; */
+}
+
+body {
+    font-size: 14px;
+}
+
+/*Bagian Header*/
+#header {
+    border-bottom: 2px solid #ececec;
+}
+
+#header .logo span {
+    /* font-family: 'Roboto', sans-serif !important; */
+    text-shadow: 1px 1px 1px grey;
+}
+
+#header .logo img {
+    max-height: 50px;
+}
+
+.bars {
+    border-radius: 50%;
+}
+
+.bars:focus {
+    box-shadow: none;
+}
+
+.bars:hover {
+    background-color: #eaeaea;
+}
+table .hover-tr{
+    background: #3d9e9e !important;
+}
+/*End Bagian Header*/
+
+/*Bagian Content*/
+/* #content{
+    
+} */
+
+#sidebar {
+    /* background-color: aqua; */
+    border-right: 2px solid #ececec;
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    transition: 0.4s;
+    background-color: white;
+}
+
+#sidebar .nav-link {
+    font-size: 16px;
+    transition: 0.4s;
+}
+
+#sidebar .nav-link:hover {
+    background-color: #ececec;
+}
+
+.toggleHide {
+    margin-left: -250px;
+    transition: 0.4s;
+}
+
+.toggleExpand {
+    margin-left: 0px !important;
+}
+
+.body-content {
+    margin-left: 250px;
+    transition: 0.4s;
+}
+
+thead {
+    border-bottom: 2px solid #b4b4b4;
+}
+
+td {
+    text-align: center;
+}
+
+/*End Bagian Content*/
+
+/*Bagian Footer*/
+#footer {
+    background: #2E2E2E;
+}
+
+/*End Bagian Footer*/
+
+/* layar HP */
+@media screen and (max-width: 540px) {
+    .handphone{
+        margin-left: -250px;
+
+    }
+    .toggleHide {
+        margin-left: 0px;
+        width: 100%;
+        transition: 0.4s;
+    }
+    .toggleExpand {
+        margin-left: 0px !important;
+    }
+
+    .body-content {
+        margin-left: 0px;
+    }
+}
