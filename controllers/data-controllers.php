@@ -99,28 +99,8 @@ if ($opsi == "import") {
 
     <?php } else {
 
-        mysqli_query($db, "ALTER TABLE $tabel auto_increment=1"); ?>
-
-        <script type='text/javascript'>
-            alert('Sukses Hapus Data');
-            window.location.href = "../index.php";
-        </script>
-    <?php
-
-    }
-} elseif ($opsi == "delete") {
-    $id = (isset($_GET['id'])) ? $_GET['id'] : "";
-    $query = "DELETE FROM tb_training";
-    $delete = mysqli_query($db, $query);
-
-    if ($delete == false) { ?>
-        <script type='text/javascript'>
-            alert('Gagal Hapus Data');
-            window.location.href = "../index.php";
-        </script>
-    <?php } else {
-        mysqli_query($db, "ALTER TABLE tb_training auto_increment=1"); ?>
-
+        mysqli_query($db, "ALTER TABLE $tabel auto_increment=1"); 
+        ?>
         <script type='text/javascript'>
             alert('Sukses Hapus Data');
             window.location.href = "../index.php";
