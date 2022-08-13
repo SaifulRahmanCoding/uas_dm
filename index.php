@@ -1,4 +1,7 @@
-<?php require('assets/src/koneksi.php'); ?>
+<?php
+session_start();
+require('assets/src/koneksi.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +13,7 @@
     <?php require('komponen/config/style.php'); ?>
 </head>
 
-<body>
+<body id="body">
     <!-- header -->
     <div id="header" class="wrapper sticky-top bg-white">
         <div class="container-fluid">
@@ -27,17 +30,27 @@
     <!-- end header -->
 
     <!-- content -->
-    <div id="content">
+    <div>
         <!-- sidebar -->
         <div id="sidebar" class="handphone">
-            <nav class="side-nav mt-3">
+            <nav id="NavControll" class="side-nav mt-3">
                 <ul class="nav flex-column">
-                    <li><a href="#" class="nav-link text-decoration-none text-dark d-flex align-items-center py-2 ps-3"> <i class="fa fa-database me-2"></i> Data Training</a></li>
-                    <li><a href="#" class="nav-link text-decoration-none text-dark d-flex align-items-center py-2 ps-3"> <i class="fa fa-database me-2"></i> Data Testing</a></li>
-                    <li><a href="#" class="nav-link text-decoration-none text-dark d-flex align-items-center py-2 ps-3"> <i class="fas fa-calculator me-2"></i> Hitung</a></li>
+                    <li><a href="#" class="nav-link text-decoration-none text-dark d-flex align-items-center py-2 ps-3 mb-2 active"> <i class="fa fa-database me-2"></i> Data Training</a></li>
+                    <li><a href="#dataTesting" class="nav-link text-decoration-none text-dark d-flex align-items-center py-2 ps-3 mb-2"> <i class="fa fa-database me-2"></i> Data Testing</a></li>
+                    <li><a href="#hitung" class="nav-link text-decoration-none text-dark d-flex align-items-center py-2 ps-3 mb-2"> <i class="fas fa-calculator me-2"></i> Hitung</a></li>
+                    <?php if (isset($_GET['aksi'])) : ?>
+                        <li><a href="#tabelPrediksi" class="nav-link text-decoration-none text-dark d-flex align-items-center py-2 ps-3 mb-2 active"> <i class="fas fa-table me-2"></i> Tabel Prediksi</a></li>
+                    <?php endif; ?>
+                    <li>
+                        <!-- Button trigger modal -->
+                        <a href="#bantuan" data-bs-toggle="modal" class="nav-link text-decoration-none text-dark d-flex align-items-center py-2 ps-3 mb-2"> <i class="fas fa-question-circle me-2"></i> Bantuan </a>
+                    </li>
                 </ul>
             </nav>
         </div>
+
+        <!-- Modal Bantuan -->
+        <?php require('komponen/modal-bantuan.php'); ?>
         <!-- end sidebar -->
 
         <!-- body content -->
@@ -45,109 +58,126 @@
             <div class="container-body-content mx-2 mx-md-3 mx-lg-4 pt-4">
 
                 <!-- DATA TRAINING -->
-                <div class="head d-inline">
-                    <h4 class="d-inline">Data Training</h4>
-                    <?php require('komponen/modal-import-training.php'); ?>
-
-                    <a href="controllers/data-controllers.php?opsi=delete_all&tabel=training" class="btn btn-outline-danger btn-sm mb-2 mx-3"><i class="fa fa-trash" onclick="return confirm_delete_training()"></i>&nbsp Reset Data</a>
-                </div>
-                <div class="table-responsive mb-5 pb-5">
-                    <table class="table table-light table-bordered table-sm">
-                        <thead class="text-center">
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Outlook</th>
-                                <th scope="col">Temperature</th>
-                                <th scope="col">Humidity</th>
-                                <th scope="col">Windy</th>
-                                <th scope="col">Play</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $select = mysqli_query($db, "SELECT * FROM tb_training");
-                            $count_row = mysqli_num_rows($select);
-                            if ($count_row == 0) { ?>
+                <div id="dataTraining">
+                    <div class="head">
+                        <h4 class="d-inline">Data Training</h4>
+                        <?php
+                        require('komponen/modal-import-training.php');
+                        require('komponen/modal-hapus-training.php');
+                        ?>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-light table-bordered table-sm">
+                            <thead class="text-center">
                                 <tr>
-                                    <td colspan="6" class="text-center"> Data Masih Kosong !!! </td>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Outlook</th>
+                                    <th scope="col">Temperature</th>
+                                    <th scope="col">Humidity</th>
+                                    <th scope="col">Windy</th>
+                                    <th scope="col">Play</th>
                                 </tr>
-                            <?php }
+                            </thead>
+                            <tbody>
+                                <?php
+                                $select = mysqli_query($db, "SELECT * FROM tb_training");
+                                $count_row = mysqli_num_rows($select);
+                                if ($count_row == 0) { ?>
+                                    <tr>
+                                        <td colspan="6" class="text-center"> Data Masih Kosong !!! </td>
+                                    </tr>
+                                <?php }
 
-                            $i = 1;
-                            foreach ($select as $training) { ?>
-                                <tr class="hover-tr">
-                                    <td><?php echo $i++; ?></td>
-                                    <td><?php echo $training['outlook']; ?></td>
-                                    <td><?php echo $training['temperature']; ?></td>
-                                    <td><?php echo $training['humidity']; ?></td>
-                                    <td><?php echo $training['windy']; ?></td>
-                                    <?php
-                                    if ($training['play'] == "yes") {
-                                        $color_play = "#bcf8c0";
-                                    } else {
-                                        $color_play = "#fec0c1";
-                                    }
-                                    ?>
-                                    <td style="background-color: <?php echo $color_play ?> !important;"><?php echo $training['play']; ?></td>
-                                </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
+                                $i = 1;
+                                foreach ($select as $training) { ?>
+                                    <tr>
+                                        <td><?php echo $i++; ?></td>
+                                        <td><?php echo $training['outlook']; ?></td>
+                                        <td><?php echo $training['temperature']; ?></td>
+                                        <td><?php echo $training['humidity']; ?></td>
+                                        <td><?php echo $training['windy']; ?></td>
+                                        <?php
+                                        $color_play = ($training['play'] == "yes") ? "#bcf8c0" : "#fec0c1";
+                                        ?>
+                                        <td style="background-color: <?php echo $color_play ?> !important;"><?php echo $training['play']; ?></td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- END DATA TRAINING -->
 
                 <!-- DATA TESTING -->
-                <div class="head d-inline">
-                    <h4 class="d-inline">Data Testing</h4>
-                    <?php
-                    require('komponen/modal-import-testing.php');
-                    require('komponen/modal-hapus-testing.php');
-                    ?>
-                </div>
-                <div class="table-responsive mb-5">
-                    <table class="table table-light table-bordered table-sm">
-                        <thead class="text-center">
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Outlook</th>
-                                <th scope="col">Temperature</th>
-                                <th scope="col">Humidity</th>
-                                <th scope="col">Windy</th>
-                                <th scope="col">Play</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $select = mysqli_query($db, "SELECT * FROM tb_testing");
-                            $count_row = mysqli_num_rows($select);
-                            if ($count_row == 0) { ?>
+                <div id="dataTesting">
+                    <div class="head">
+                        <h4 class="d-inline">Data Testing</h4>
+                        <?php
+                        require('komponen/modal-import-testing.php');
+                        require('komponen/modal-hapus-testing.php');
+                        ?>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-light table-bordered table-sm">
+                            <thead class="text-center">
                                 <tr>
-                                    <td colspan="6" class="text-center"> Data Masih Kosong !!! </td>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Outlook</th>
+                                    <th scope="col">Temperature</th>
+                                    <th scope="col">Humidity</th>
+                                    <th scope="col">Windy</th>
+                                    <th scope="col">Play</th>
                                 </tr>
-                            <?php }
+                            </thead>
+                            <tbody>
+                                <?php
+                                $select = mysqli_query($db, "SELECT * FROM tb_testing");
+                                $count_row = mysqli_num_rows($select);
+                                if ($count_row == 0) { ?>
+                                    <tr>
+                                        <td colspan="6" class="text-center"> Data Masih Kosong !!! </td>
+                                    </tr>
+                                <?php }
 
-                            $i = 1;
-                            foreach ($select as $training) { ?>
-                                <tr class="hover-tr">
-                                    <td><?php echo $i++; ?></td>
-                                    <td><?php echo $training['outlook']; ?></td>
-                                    <td><?php echo $training['temperature']; ?></td>
-                                    <td><?php echo $training['humidity']; ?></td>
-                                    <td><?php echo $training['windy']; ?></td>
-                                    <?php
-                                    if ($training['play'] == "yes") {
-                                        $color_play = "#bcf8c0";
-                                    } else {
-                                        $color_play = "#fec0c1";
-                                    }
-                                    ?>
-                                    <td style="background-color: <?php echo $color_play ?> !important;"><?php echo $training['play']; ?></td>
-                                </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
+                                $i = 1;
+                                foreach ($select as $training) { ?>
+                                    <tr>
+                                        <td><?php echo $i++; ?></td>
+                                        <td><?php echo $training['outlook']; ?></td>
+                                        <td><?php echo $training['temperature']; ?></td>
+                                        <td><?php echo $training['humidity']; ?></td>
+                                        <td><?php echo $training['windy']; ?></td>
+                                        <?php
+                                        $color_play = ($training['play'] == "yes") ? "#bcf8c0" : "#fec0c1";
+                                        ?>
+                                        <td style="background-color: <?php echo $color_play ?> !important;"><?php echo $training['play']; ?></td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- END DATA TESTING -->
+
+                <!-- HITUNG -->
+                <div id="hitung" class="mb-5">
+                    <div class="head">
+                        <h4 class="d-inline"> Hitung</h4>
+                        <?php
+                        // kondisi jika data testing kosong
+                        if ($count_row > 0) { ?>
+                            <a href="?aksi=hitung#hitung" class="btn btn-outline-primary btn-sm ms-3"> <i class="fas fa-calculator"></i> Hitung</a>
+                        <?php } ?>
+                        <a href="?#hitung" class="btn btn-outline-danger btn-sm mx-3"> <i class="fas fa-redo"></i> Reset Hitungan</a>
+                    </div>
+                    <?php
+                    $hitung = (isset($_GET['aksi'])) ? $_GET['aksi'] : "";
+                    if (!empty($hitung)) {
+                        require('controllers/hitung.php');
+                    } ?>
+                </div>
+                <!-- END HITUNG -->
+
             </div>
         </div>
         <!-- end body content -->
@@ -157,7 +187,9 @@
 
     <!-- footer -->
     <div id="footer">
-        <div class="container"></div>
+        <div class="container-fluid">
+
+        </div>
 
     </div>
     <!-- end footer -->

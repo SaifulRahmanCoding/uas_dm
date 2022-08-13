@@ -5,3 +5,8 @@ function toggleSide() {
     element.classList.toggle("toggleHide");
     element2.classList.toggle("toggleExpand");
 }
+$(document).ready(function () {
+    $('body').scrollspy({
+        target: "#NavControll", offset: 0
+    });
+});
