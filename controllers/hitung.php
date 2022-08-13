@@ -5,7 +5,8 @@
 // $col = nama kolom, $row = nama field yang tertera pada kolom, $label = yes atau no
 function vlookup($col, $row, $label)
 {
-    $db = mysqli_connect("localhost", "root", "", "uas_dm");
+   
+   require('assets/src/koneksi.php');
 
     // hitung jumlah data yang sesuai label dan col
     $jml_data = mysqli_num_rows(mysqli_query($db, "SELECT $col FROM tb_training WHERE play = '$label'"));
@@ -27,7 +28,7 @@ function vlookup($col, $row, $label)
 // Function probabilitas Play (YES/NO)
 function probabilitas_play($label)
 {
-    $db = mysqli_connect("localhost", "root", "", "uas_dm");
+   require('assets/src/koneksi.php');
     // jumlah data keseluruhan
     $jml_data = mysqli_num_rows(mysqli_query($db, "SELECT play FROM tb_training"));
 
