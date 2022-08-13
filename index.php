@@ -49,7 +49,7 @@
                     <h4 class="d-inline">Data Training</h4>
                     <?php require('komponen/modal-import-training.php'); ?>
 
-                    <a href="controllers/training-controllers.php?opsi=delete_all" class="btn btn-outline-danger btn-sm mb-2 mx-3"><i class="fa fa-trash" onclick="return confirm_delete_training()"></i>&nbsp Reset Data</a>
+                    <a href="controllers/data-controllers.php?opsi=delete_all&tabel=training" class="btn btn-outline-danger btn-sm mb-2 mx-3"><i class="fa fa-trash" onclick="return confirm_delete_training()"></i>&nbsp Reset Data</a>
                 </div>
                 <div class="table-responsive mb-5 pb-5">
                     <table class="table table-light table-bordered table-sm">
@@ -99,9 +99,10 @@
                 <!-- DATA TESTING -->
                 <div class="head d-inline">
                     <h4 class="d-inline">Data Testing</h4>
-                    <?php require('komponen/modal-import-testing.php'); ?>
-
-                    <a href="controllers/training-controllers.php?opsi=delete_all" class="btn btn-outline-danger btn-sm mb-2 mx-3"><i class="fa fa-trash" onclick="return confirm_delete_training()"></i>&nbsp Reset Data</a>
+                    <?php
+                    require('komponen/modal-import-testing.php');
+                    require('komponen/modal-hapus-testing.php');
+                    ?>
                 </div>
                 <div class="table-responsive mb-5">
                     <table class="table table-light table-bordered table-sm">

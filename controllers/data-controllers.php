@@ -10,7 +10,7 @@ $opsi = (isset($_GET['opsi'])) ? $_GET['opsi'] : "";
 $tabel = (isset($_GET['tabel'])) ? $_GET['tabel'] : "";
 if ($tabel == "training") {
     $tabel = "tb_training";
-}else{
+} else {
     $tabel = "tb_testing";
 }
 
@@ -39,7 +39,7 @@ if ($opsi == "import") {
                 $temperature = (isset($kolom[1])) ? $kolom[1] : "";
                 $humidity = (isset($kolom[2])) ? $kolom[2] : "";
                 $windy = (isset($kolom[3])) ? $kolom[3] : "";
-                $windy = ($windy == "0") ? "FALSE": "TRUE";
+                $windy = ($windy == "0") ? "FALSE" : "TRUE";
                 $play = (isset($kolom[4])) ? $kolom[4] : "";
 
                 if (!empty($outlook)) {
@@ -77,7 +77,14 @@ if ($opsi == "import") {
         </script>
     <?php }
 } elseif ($opsi == "delete_all") {
-    $query = "DELETE FROM tb_training";
+    $tabel = (isset($_GET['tabel'])) ? $_GET['tabel'] : "";
+    if ($tabel == "training") {
+        $tabel = "tb_training";
+    } else {
+        $tabel = "tb_testing";
+    }
+
+    $query = "DELETE FROM $tabel";
     $delete = mysqli_query($db, $query);
 
     // $query = "DELETE FROM koefisien_regresi";
@@ -92,7 +99,7 @@ if ($opsi == "import") {
 
     <?php } else {
 
-        mysqli_query($db, "ALTER TABLE tb_training auto_increment=1"); ?>
+        mysqli_query($db, "ALTER TABLE $tabel auto_increment=1"); ?>
 
         <script type='text/javascript'>
             alert('Sukses Hapus Data');
