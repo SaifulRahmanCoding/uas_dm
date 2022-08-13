@@ -79,7 +79,8 @@ table .hover-tr {
     margin-left: 0px !important;
 }
 
-.body-content {
+.body-content,
+.footer {
     margin-left: 250px;
     transition: 0.4s;
 }
@@ -119,7 +120,8 @@ td {
         margin-left: 0px !important;
     }
 
-    .body-content {
+    .body-content,
+    .footer {
         margin-left: 0px;
     }
 }

@@ -186,11 +186,10 @@ require('assets/src/koneksi.php');
     <!-- end content -->
 
     <!-- footer -->
-    <div id="footer">
-        <div class="container-fluid">
-
+    <div id="footer" class="footer py-1">
+        <div class="container-fluid d-flex justify-content-center">
+            <span class="text-light">Copyright By Saiful Rahman - 2022</span>
         </div>
-
     </div>
     <!-- end footer -->
 
