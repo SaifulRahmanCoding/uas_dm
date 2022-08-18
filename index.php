@@ -13,7 +13,7 @@ require('assets/src/koneksi.php');
     <?php require('komponen/config/style.php'); ?>
 </head>
 
-<body id="body">
+<body>
     <!-- header -->
     <div id="header" class="wrapper sticky-top bg-white">
         <div class="container-fluid">
